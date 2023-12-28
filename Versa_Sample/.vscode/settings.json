@@ -1,9 +1,10 @@
 {
   "idf.adapterTargetName": "esp32",
-  "idf.portWin": "COM4",
+  "idf.portWin": "COM7",
   "idf.openOcdConfigs": [
     "board/esp32-ethernet-kit-3.3v.cfg"
   ],
   "idf.flashType": "UART",
-  "idf.monitorBaudRate": "115200"
+  "idf.monitorBaudRate": "115200",
+  "C_Cpp.errorSquiggles": "disabled"
 }

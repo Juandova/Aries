@@ -135,7 +135,7 @@ static uint32_t ManageKeyboardEvents(uint32_t keyid, uint16_t pressEvent,
   if (keyRep[keyid] < sizeof(interKeyTimer)/2-1) keyRep[keyid]++;
   keyTimer[keyid] = interKeyTimer[keyRep[keyid]];
   longKeyTimeout = 0; shortKeyTimeout = 0; veryLongKeyTimeout = 0;
-  PlayMelody((uint16_t *)melKeyBeep);
+  //PlayMelody((uint16_t *)melKeyBeep);
   
   return pressEvent;
 }
