@@ -32,7 +32,7 @@ void comp_nav();
 void dib_met(int *n, int *m);
 void borr_met(int *n, int *m);
 void met_anim(int *a, int *b, int *c, int *d);
-void met_comp(int *a, int *b, int *c, int *d, int *e, int *f, int *g, int *h);
+void met_comp(int *a, int *b, int *c, int *d, int *e, int *f, int *g, int *h, int *k);
 
 
 //******************************************************************************
@@ -48,7 +48,7 @@ void borr_bal_tr();
 void rec_bal_un();
 void rec_bal_do();
 void rec_bal_tr();
-
+void fondo(int *a, int *b, int *c, int *d, int *e, int *f, int *g, int *h, int *j);
   //Dash
 void dib_dash();
 void borr_dash();
@@ -69,6 +69,6 @@ void dib_seis(int n_pos_x, int n_pos_y);
 void dib_siete(int n_pos_x, int n_pos_y);
 void dib_ocho(int n_pos_x, int n_pos_y);
 void dib_nueve(int n_pos_x, int n_pos_y);
-void contador(int *a, int *b, int *c, int *d, int *e, int *f, int *g);
+void contador(int *a, int *b, int *c, int *d, int *e, int *f, int *g, int *h);
 
 #endif

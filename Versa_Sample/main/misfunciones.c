@@ -227,7 +227,7 @@ void met_anim(int *a, int *b, int *c, int *d){
   *d = met_switch_f; 
 }
 
-void met_comp(int *a, int *b, int *c, int *d, int *e, int *f, int *g, int *h){
+void met_comp(int *a, int *b, int *c, int *d, int *e, int *f, int *g, int *h, int *k){
 
   int disp_switch_f = *a;
   int met_switch_f = *b;
@@ -238,6 +238,7 @@ void met_comp(int *a, int *b, int *c, int *d, int *e, int *f, int *g, int *h){
   int x_pos_f = *g;
   int y_pos_f = *h;
   int var_comp_f, i, j;
+  int met_dest_f = *k;
   int vec_met_y_f[20], vec_disp_f[6], vec_nav_y_f[16];
   //Sonido
 
@@ -259,12 +260,10 @@ void met_comp(int *a, int *b, int *c, int *d, int *e, int *f, int *g, int *h){
         //Frenar disparo
         LCD_DrawRectangle(disp_pos_x_f, disp_pos_y_f, 1*3, 2*3, 0);
         //Añadir puntos
-        
-        //FALTA
-
+        met_dest_f = 1;
         disp_switch_f = 0;
         met_switch_f = 0;
-        PlayMelody(melDest);
+        PlayMelody(melDest);       
         //PARA EVITAR EL BORRADO DE LA NAVE
         dib_nave(&x_pos_f,&y_pos_f);
         }
@@ -309,10 +308,63 @@ void met_comp(int *a, int *b, int *c, int *d, int *e, int *f, int *g, int *h){
  *f = disp_pos_y_f;
  *g = x_pos_f;
  *h = y_pos_f;
+ *k = met_dest_f;
 }
 
 //******************************************************************************
 //INTERFAZ
+
+//FONDO
+void fondo(int *a, int *b, int *c, int *d, int *e, int *f, int *g, int *h, int *j){//genera las estrellas en el fondo
+  int cont_est_f = *a;
+  int act_u_f = *b;
+  int vel_est_f = *c;
+  int vec_est_f[5];
+  vec_est_f[0] = *d;
+  vec_est_f[1] = *e;
+  vec_est_f[2] = *f;
+  vec_est_f[3] = *g;
+  vec_est_f[4] = *h;
+  int i = 0, var_comp = 0;
+  int y_pos_est_f = *j;
+
+  if(++cont_est_f >= 10){
+    cont_est_f = 0;
+    if (act_u_f == 0){
+      for(i=0;i<4;i++){
+        vec_est_f[i] = esp_random()%201 + 20;
+        LCD_DrawRectangle(vec_est_f[i], y_pos_est_f, 2, 2, WHITE_COLOR);
+      }
+      act_u_f = 1;
+    }
+
+    if (act_u_f == 1){
+      var_comp = y_pos_est_f + vel_est_f;
+      for(i=0;i<4;i++){
+        LCD_DrawRectangle(vec_est_f[i], y_pos_est_f, 2, 2, 0);
+        LCD_DrawRectangle(vec_est_f[i], var_comp, 2, 2, WHITE_COLOR);
+      }
+      y_pos_est_f = var_comp;
+    }
+
+    if(y_pos_est_f > 268){
+      for(i=0;i<4;i++){
+        LCD_DrawRectangle(vec_est_f[i], y_pos_est_f, 2, 2, 0);
+      }
+      y_pos_est_f = 0;
+      act_u_f = 0;
+    }
+  }
+  *a = cont_est_f;
+  *b = act_u_f;
+  *c = vel_est_f;
+  *d = vec_est_f[0];
+  *e = vec_est_f[1];
+  *f = vec_est_f[2];
+  *g = vec_est_f[3];
+  *h = vec_est_f[4];
+  *j = y_pos_est_f;
+}
 
 //BORDES
 void dib_bordes(){
@@ -613,7 +665,7 @@ void dib_nueve(int n_pos_x, int n_pos_y){
 
 //******************************************************************************
 //CONTADOR
-void contador(int *a, int *b, int *c, int *d, int *e, int *f, int *g){
+void contador(int *a, int *b, int *c, int *d, int *e, int *f, int *g, int *h){
   int cont = *a;
   int cont_u = *b;
   int cont_d = *c;
@@ -621,8 +673,22 @@ void contador(int *a, int *b, int *c, int *d, int *e, int *f, int *g){
   int cont_cu = *e;
   int cont_ci = *f;
   int cont_se = *g;
-  if(++cont >= 50){ //aumentara 1 valor por segundo
+  int met_dest_f = *h;
+  int var_comp_u = 0, var_comp_d = 0;
+  if(++cont >= 50 || met_dest_f == 1 || met_dest_f == 2 || met_dest_f == 3){ //aumentara 1 valor por segundo
     cont = 0;
+    if(met_dest_f == 1){
+      var_comp_u = cont_u;
+      var_comp_d = cont_d;
+      cont_u = 10;
+      cont_d = 10;
+    }
+    if(met_dest_f == 2){
+      var_comp_u = cont_u;
+      cont_u = 10;
+    }
+
+
   // CONTADOR 1
     switch(cont_u){
       case 1:
@@ -881,6 +947,19 @@ void contador(int *a, int *b, int *c, int *d, int *e, int *f, int *g){
         }
         break;
       }
+    
+    if(met_dest_f == 3){
+      met_dest_f = 0;
+    } 
+    if(met_dest_f == 2){
+      cont_u = var_comp_u;
+      met_dest_f = 3;
+    }
+    if(met_dest_f == 1){
+      cont_u = var_comp_u;
+      cont_d = var_comp_d;
+      met_dest_f = 2;
+    }
   }
   *a = cont;
   *b = cont_u;
@@ -889,4 +968,5 @@ void contador(int *a, int *b, int *c, int *d, int *e, int *f, int *g){
   *e = cont_cu;
   *f = cont_ci;
   *g = cont_se;
+  *h = met_dest_f;
 }
