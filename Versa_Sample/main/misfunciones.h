@@ -31,9 +31,9 @@ void comp_nav();
 // METEORITO
 void dib_met(int *n, int *m);
 void borr_met(int *n, int *m);
-void met_anim(int *a, int *b, int *c, int *d);
+void met_anim(int *a, int *b, int *c, int *d, int *e, int *f, int *g);
 void met_comp(int *a, int *b, int *c, int *d, int *e, int *f, int *g, int *h, int *k);
-
+void control_vel(int *a, int *b);
 
 //******************************************************************************
 // INTERFAZ

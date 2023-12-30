@@ -199,32 +199,51 @@ void borr_met(int *n, int *m){
   *m = metpos_y; 
 }
 
-void met_anim(int *a, int *b, int *c, int *d){
+void met_anim(int *a, int *b, int *c, int *d, int *e, int *f, int *g){
   int cont_met_f = *a;
   int metpos_x_f = *b;
   int metpos_y_f = *c;
   int met_switch_f = *d;
-  
+  int vel_met_f = *e;
+  int cont_switch_f = *f;
+  int iniciomet_f = *g;
+  int i = 0;
+  int metpos_x_pos[9] = {23, 47, 71, 95, 119, 143, 167, 191, 215};
+  if (++cont_switch_f >= 100 && met_switch_f == 0){
+    cont_switch_f = 0;
+    iniciomet_f = 1;
+  }
+  if (iniciomet_f == 1){
+    iniciomet_f = 0;
+    met_switch_f = 1;
+    i = esp_random()%9;
+    metpos_x_f = metpos_x_pos[i];
+  }
+
+  if(metpos_y_f + 16 > 257){
+    met_switch_f = 0;
+    borr_met(&metpos_x_f, &metpos_y_f);
+  }
   if(met_switch_f == 1){
     if(++cont_met_f >= 2){
       cont_met_f = 0;
       borr_met(&metpos_x_f, &metpos_y_f);
       //Velocidad máxima 26 // Mínima 10
-      metpos_y_f = metpos_y_f + 8;
+      metpos_y_f = metpos_y_f + vel_met_f;
       dib_met(&metpos_x_f, &metpos_y_f);
     }
   }
-  if(metpos_y_f > 258){
-    met_switch_f = 0;
-    borr_met(&metpos_x_f, &metpos_y_f);
-  }
+
   if(met_switch_f == 0){
     metpos_y_f = 0;
   }      
   *a = cont_met_f;
   *b = metpos_x_f;
   *c = metpos_y_f;
-  *d = met_switch_f; 
+  *d = met_switch_f;
+  *e = vel_met_f;
+  *f = cont_switch_f;
+  *g = iniciomet_f;
 }
 
 void met_comp(int *a, int *b, int *c, int *d, int *e, int *f, int *g, int *h, int *k){
@@ -311,6 +330,16 @@ void met_comp(int *a, int *b, int *c, int *d, int *e, int *f, int *g, int *h, in
  *k = met_dest_f;
 }
 
+void control_vel(int *a, int *b){
+  int cont_vel_f = *a;
+  int vel_met_f = *b;
+  if(++cont_vel_f >= 1500 && vel_met_f < 26){
+    cont_vel_f = 0;
+    vel_met_f = vel_met_f + 1;
+  }
+  *a = cont_vel_f;
+  *b = vel_met_f;
+}
 //******************************************************************************
 //INTERFAZ
 
@@ -347,7 +376,7 @@ void fondo(int *a, int *b, int *c, int *d, int *e, int *f, int *g, int *h, int *
       y_pos_est_f = var_comp;
     }
 
-    if(y_pos_est_f > 268){
+    if(y_pos_est_f > 270){
       for(i=0;i<4;i++){
         LCD_DrawRectangle(vec_est_f[i], y_pos_est_f, 2, 2, 0);
       }
@@ -490,26 +519,34 @@ void recarga(int *a, int *b, int *c, int *d){
   int cont_rec_f = *b;
   int disp_bal_men_f = *c;
   int anim_rec_f = *d;
-  if(++cont_rec_f >= 50 && act_rec_f == 1){
+  if(++cont_rec_f >= 25 && act_rec_f == 1){
     cont_rec_f = 0;
     switch(anim_rec_f){
     case 1: 
-    rec_bal_un();
-    anim_rec_f++;
+      rec_bal_un();
+      anim_rec_f++;
     break;
     case 2: 
-    rec_bal_do();
-    anim_rec_f++;
+      rec_bal_do();
+      anim_rec_f++;
     break;
     case 3:
-    rec_bal_tr();
-    anim_rec_f++;
+      rec_bal_tr();
+      anim_rec_f++;
     break;
     case 4:
-    dib_balas();
-    act_rec_f = 0;
-    disp_bal_men_f = 0;
-    anim_rec_f = 1;
+      dib_bal_un();
+      anim_rec_f++;
+    break;
+    case 5:
+      dib_bal_do();
+      anim_rec_f++;
+    break;
+    case 6:
+      dib_balas();
+      act_rec_f = 0;
+      disp_bal_men_f = 0;
+      anim_rec_f = 1;
     break;  
     }
   }

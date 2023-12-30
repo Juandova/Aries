@@ -106,20 +106,28 @@ int y_pos_est_u = 0, y_pos_est_d = 64, y_pos_est_t = 128, y_pos_est_cu = 192, y_
 int vel_est = 10;
 int get_pos_est = 1;
 
-//PROVISIONALES 
 
-//Meteorito // Posiciones del meteorito:[23, 47, 71, 95, 119, 143, 167, 191, 215]  
-int metpos_x = 119, metpos_y = 0;
-int met_switch = 0;
-int iniciomet = 0;
-int metpos_x_pos[9] = {23, 47, 71, 95, 119, 143, 167, 191, 215};
-int cont_switch_f;
+
+//Meteorito general // Posiciones del meteorito:[23, 47, 71, 95, 119, 143, 167, 191, 215]  
+int vel_met = 8;
+int cont_vel = 0;
 int met_dest = 0;
+//Posiciones
+int metpos_x = 119, metpos_y = 0, metpos_x_d = 119, metpos_y_d = 0, metpos_x_t = 119, metpos_y_t = 0, metpos_x_cu = 119, metpos_y_cu = 0, metpos_x_ci = 119, metpos_y_ci = 0;
+//Switches
+int met_switch = 0, met_switch_d = 0, met_switch_t = 0, met_switch_cu = 0, met_switch_ci = 0;
+int iniciomet = 0, iniciomet_d = 0, iniciomet_t = 0, iniciomet_cu = 0, iniciomet_ci = 0;
+//Contador de switches
+int cont_switch = 0, cont_switch_d = 20, cont_switch_t = 40, cont_switch_cu = 60, cont_switch_ci = 80;
+int cont_met = 0, cont_met_d = 0, cont_met_t = 0, cont_met_cu = 0, cont_met_ci = 0; 
+
+//PROVISIONALES
+int cont_prov = 0;
 
 
 //Temporizadores
 int i = 0, j = 0, k = 1;
-int cont = 0, cont_u = 1, cont_d = 1, cont_t = 1, cont_cu = 1, cont_ci = 1 ,cont_se = 1, cont_met = 0;  
+int cont = 0, cont_u = 1, cont_d = 1, cont_t = 1, cont_cu = 1, cont_ci = 1 ,cont_se = 1;  
 
 //******************************************************************************
 // FUNCTIONS
@@ -144,6 +152,7 @@ static void EmphasizeButton(tUIEvent button)
     x_line = x_line + 32;
   }
   */
+
   switch (button)
   {
   case EV_FULL_REDRAW:
@@ -246,44 +255,44 @@ void MainMenuScreenHandler(void)
       EmphasizeButton(event);
       break;
     case EV_TIMER_20MS:
+
+    
       contador(&cont, &cont_u, &cont_d, &cont_t, &cont_cu, &cont_ci, &cont_se, &met_dest);
       //DISPARO
       disparo(&disp_switch, &disptemp, &disp_pos_x, &disp_pos_y, &x_pos, &y_pos, &disp_bal_men);
       //Comprobación del disparo y el meteorito 
       recarga(&act_rec, &cont_rec, &disp_bal_men, &anim_rec);
-
+      // Vemos si el meteorito es alcanzado por la nave o el disparo
       met_comp(&disp_switch, &met_switch, &metpos_x, &metpos_y, &disp_pos_x, &disp_pos_y, &x_pos, &y_pos, &met_dest);
+      met_comp(&disp_switch, &met_switch_d, &metpos_x_d, &metpos_y_d, &disp_pos_x, &disp_pos_y, &x_pos, &y_pos, &met_dest);
+      met_comp(&disp_switch, &met_switch_t, &metpos_x_t, &metpos_y_t, &disp_pos_x, &disp_pos_y, &x_pos, &y_pos, &met_dest);
+      met_comp(&disp_switch, &met_switch_cu, &metpos_x_cu, &metpos_y_cu, &disp_pos_x, &disp_pos_y, &x_pos, &y_pos, &met_dest);
+      met_comp(&disp_switch, &met_switch_ci, &metpos_x_ci, &metpos_y_ci, &disp_pos_x, &disp_pos_y, &x_pos, &y_pos, &met_dest);
+
       //ESP_LOGI("scr_main", "ENTRADA: %d || %d", metpos_y, y_pos);
 
-      //Sale el metorito de forma aleatoria
-      
-      if (++cont_switch_f >= 100 && met_switch == 0){
-        cont_switch_f = 0;
-        iniciomet = 1;
-      }
-      if (iniciomet == 1){
-        iniciomet = 0;
-        met_switch = 1;
-        i = esp_random()%10;
-        metpos_x = metpos_x_pos[i];
-      }
-      met_anim(&cont_met, &metpos_x, &metpos_y, &met_switch);
-      
+      //Sale el metorito de forma aleatoria, espera 2s después de desaparecer despues de desaparecer 
+      //Cada 30 segundos va más rapido
+      control_vel(&cont_vel, &vel_met);
+
+      //GENERAMOS METEORITOS
+      met_anim(&cont_met, &metpos_x, &metpos_y, &met_switch, &vel_met, &cont_switch, &iniciomet);
+      met_anim(&cont_met_d, &metpos_x_d, &metpos_y_d, &met_switch_d, &vel_met, &cont_switch_d, &iniciomet_d);
+      met_anim(&cont_met_t, &metpos_x_t, &metpos_y_t, &met_switch_t, &vel_met, &cont_switch_t, &iniciomet_t);
+      met_anim(&cont_met_cu, &metpos_x_cu, &metpos_y_cu, &met_switch_cu, &vel_met, &cont_switch_cu, &iniciomet_cu);
+      met_anim(&cont_met_ci, &metpos_x_ci, &metpos_y_ci, &met_switch_ci, &vel_met, &cont_switch_ci, &iniciomet_ci); 
+
       dib_dash_rec(&dash_act, &cont_dash, &cont_dash_anim);//CONTROLA EL DASH
 
-      dib_nave(&x_pos,&y_pos);//REDIBUJAMOS POR SI ACASO
-      /*if(get_pos_est == 1){
-      y_pos_est_d = esp_random()%65;
-      y_pos_est_t = esp_random()%129;
-      y_pos_est_cu = esp_random()%193;
-      y_pos_est_ci =  esp_random()%260;
-      get_pos_est = 0;
-      }*/
+      //Dibujo del fondo estrellado
       fondo(&cont_est_u ,&act_u, &vel_est, &vec_est_u[0], &vec_est_u[1], &vec_est_u[2], &vec_est_u[3], &vec_est_u[4], &y_pos_est_u);
       fondo(&cont_est_d ,&act_d, &vel_est, &vec_est_d[0], &vec_est_d[1], &vec_est_d[2], &vec_est_d[3], &vec_est_d[4], &y_pos_est_d);
       fondo(&cont_est_t ,&act_t, &vel_est, &vec_est_t[0], &vec_est_t[1], &vec_est_t[2], &vec_est_t[3], &vec_est_t[4], &y_pos_est_t);
       fondo(&cont_est_cu ,&act_cu, &vel_est, &vec_est_cu[0], &vec_est_cu[1], &vec_est_cu[2], &vec_est_cu[3], &vec_est_cu[4], &y_pos_est_cu);
       fondo(&cont_est_ci ,&act_ci, &vel_est, &vec_est_ci[0], &vec_est_ci[1], &vec_est_ci[2], &vec_est_ci[3], &vec_est_ci[4], &y_pos_est_ci);
+      
+      dib_nave(&x_pos,&y_pos);//REDIBUJAMOS POR SI ACASO
+      
       break;
 
     case EV_KEY_UP_PRESS:
@@ -311,10 +320,8 @@ void MainMenuScreenHandler(void)
       EmphasizeButton(event);
       break;
     case EV_KEY_START_PRESS:
-      // Apagar
-      LCD_DrawRectangle(0,0,SCREEN_WIDTH,SCREEN_HEIGHT,0);
-      DisablePower();
-      SysSleep(500);
+      // Empezar juego
+      ESP_LOGI("scr_main", "INICIO JUEGO");
       break;
     case EV_KEY_SELECT_PRESS:
       // Apagar
