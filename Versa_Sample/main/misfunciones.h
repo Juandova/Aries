@@ -68,11 +68,17 @@ void dib_seis(int n_pos_x, int n_pos_y);
 void dib_siete(int n_pos_x, int n_pos_y);
 void dib_ocho(int n_pos_x, int n_pos_y);
 void dib_nueve(int n_pos_x, int n_pos_y);
-void contador(int *a, int *b, int *c, int *d, int *e, int *f, int *g, int *h);
+  //Manejo del contador
+void contador(int *a, int *b, int *c, int *d, int *e, int *f, int *g, int *h, int *i);
+void dib_puntos(int *a, int *b, int *c, int *d, int *e, int *f, int *g, int*h);
+void rein_conts(int *a, int *b, int *c, int *d, int *e, int *f, int *g);
+  //GAME OVER dibujo
 void dib_GaOv();
  //Pantalla inicial
 void dib_pant_princ();
 void dib_flechas(int posu, int posd);
 void borr_flechas(int posu, int posd);
 void anim_flechas(int *a, int *b);
+  //Apagar
+void apagar();
 #endif

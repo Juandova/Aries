@@ -20,7 +20,7 @@
 #include "task_ui.h"
 
 //******************************************************************************
-// FUNCTIONS
+// Sonidos
    const uint16_t melDest[] = 
     {
     127, 20,
@@ -38,6 +38,16 @@
     110, 250,   
     0,0
     };
+      const uint16_t melApagar[] = 
+    {
+    233, 250,
+    220, 250,
+    208, 250,
+    196, 250,
+    185, 500,   
+    0,0
+    };
+
 
 //******************************************************************************
 //NAVE
@@ -716,7 +726,7 @@ void dib_nueve(int n_pos_x, int n_pos_y){
 
 //******************************************************************************
 //CONTADOR
-void contador(int *a, int *b, int *c, int *d, int *e, int *f, int *g, int *h){
+void contador(int *a, int *b, int *c, int *d, int *e, int *f, int *g, int *h, int *i){
 
   int cont = *a;
   int cont_u = *b;
@@ -726,7 +736,9 @@ void contador(int *a, int *b, int *c, int *d, int *e, int *f, int *g, int *h){
   int cont_ci = *f;
   int cont_se = *g;
   int met_dest_f = *h;
+  int ref_dib_f = *i;
   int var_comp_u = 0, var_comp_d = 0;
+
   if(++cont >= 50 || met_dest_f == 1 || met_dest_f == 2 || met_dest_f == 3){ //aumentara 1 valor por segundo
     cont = 0;
     if(met_dest_f == 1){
@@ -746,34 +758,58 @@ void contador(int *a, int *b, int *c, int *d, int *e, int *f, int *g, int *h){
       case 1:
       dib_uno(56, 300);
       cont_u++;
+      if(ref_dib_f == 0){
+        ref_dib_f = 1;
+      }
       break;
       case 2:
       dib_dos(56, 300);
       cont_u++;
+      if(ref_dib_f == 0){
+        ref_dib_f = 1;
+      }
       break;
       case 3:
       dib_tres(56, 300);
       cont_u++;
+      if(ref_dib_f == 0){
+        ref_dib_f = 1;
+      }      
       break;
       case 4:
       dib_cuatro(56, 300);
       cont_u++;
+      if(ref_dib_f == 0){
+        ref_dib_f = 1;
+      }      
       break;
       case 5:
       dib_cinco(56, 300);
       cont_u++;
+      if(ref_dib_f == 0){
+        ref_dib_f = 1;
+      }
       break;
       case 6:
       dib_seis(56, 300);
       cont_u++;
+      if(ref_dib_f == 0){
+        ref_dib_f = 1;
+      }
       break;
       case 7:
       dib_siete(56, 300);
       cont_u++;
+      if(ref_dib_f == 0){
+        ref_dib_f = 1;
+      }      
       break;
       case 8:
       dib_ocho(56, 300);
       cont_u++;
+      if(ref_dib_f == 0){
+        ref_dib_f = 1;
+      }
       break;
       case 9:
       dib_nueve(56, 300);
@@ -781,212 +817,365 @@ void contador(int *a, int *b, int *c, int *d, int *e, int *f, int *g, int *h){
       break;
       case 10:
       dib_cero(56, 300);
+      if(ref_dib_f == 0){
+        ref_dib_f = 1;
+      }      
       cont_u = 1;
   // CONTADOR  2
-        switch(cont_d){
+      switch(cont_d){
         case 1:
         dib_uno(52, 300);
         cont_d++;
+        if(ref_dib_f == 1){
+          ref_dib_f = 2;
+        }
         break;
         case 2:
         dib_dos(52, 300);
         cont_d++;
+        if(ref_dib_f == 1){
+          ref_dib_f = 2;
+        }
         break;
         case 3:
         dib_tres(52, 300);
         cont_d++;
+        if(ref_dib_f == 1){
+          ref_dib_f = 2;
+        }
         break;
         case 4:
         dib_cuatro(52, 300);
         cont_d++;
+        if(ref_dib_f == 1){
+          ref_dib_f = 2;
+        }
         break;
         case 5:
         dib_cinco(52, 300);
         cont_d++;
+        if(ref_dib_f == 1){
+          ref_dib_f = 2;
+        }
         break;
         case 6:
         dib_seis(52, 300);
         cont_d++;
+        if(ref_dib_f == 1){
+          ref_dib_f = 2;
+        }        
         break;
         case 7:
         dib_siete(52, 300);
         cont_d++;
+        if(ref_dib_f == 1){
+          ref_dib_f = 2;
+        }
         break;
         case 8:
         dib_ocho(52, 300);
         cont_d++;
+        if(ref_dib_f == 1){
+          ref_dib_f = 2;
+        }
         break;
         case 9:
         dib_nueve(52, 300);
         cont_d++;
+        if(ref_dib_f == 1){
+          ref_dib_f = 2;
+        }
         break;
         case 10:
         dib_cero(52, 300);
         cont_d = 1;
+        if(ref_dib_f == 1){
+          ref_dib_f = 2;
+        }
   //CONTADOR 3
         switch(cont_t){
           case 1:
           dib_uno(48, 300);
           cont_t++;
+          if(ref_dib_f == 2){
+            ref_dib_f = 3;
+          }
           break;
           case 2:
           dib_dos(48, 300);
           cont_t++;
+          if(ref_dib_f == 2){
+            ref_dib_f = 3;
+          }
           break;
           case 3:
           dib_tres(48, 300);
           cont_t++;
+          if(ref_dib_f == 2){
+            ref_dib_f = 3;
+          }
           break;
           case 4:
           dib_cuatro(48, 300);
           cont_t++;
+          if(ref_dib_f == 2){
+            ref_dib_f = 3;
+          }
           break;
           case 5:
           dib_cinco(48, 300);
           cont_t++;
+          if(ref_dib_f == 2){
+            ref_dib_f = 3;
+          }
           break;
           case 6:
           dib_seis(48, 300);
           cont_t++;
+          if(ref_dib_f == 2){
+            ref_dib_f = 3;
+          }
           break;
           case 7:
           dib_siete(48, 300);
           cont_t++;
+          if(ref_dib_f == 2){
+            ref_dib_f = 3;
+          }
           break;
           case 8:
           dib_ocho(48, 300);
           cont_t++;
+          if(ref_dib_f == 2){
+            ref_dib_f = 3;
+          }
           break;
           case 9:
           dib_nueve(48, 300);
           cont_t++;
+          if(ref_dib_f == 2){
+            ref_dib_f = 3;
+          }
           break;
           case 10:
           dib_cero(48, 300);
           cont_t = 1;
+          if(ref_dib_f == 2){
+            ref_dib_f = 3;
+          }
   // CONTADOR 4
             switch(cont_cu){
               case 1:
               dib_uno(44, 300);
               cont_cu++;
+              if(ref_dib_f == 3){
+                ref_dib_f = 4;
+              }
               break;
               case 2:
               dib_dos(44, 300);
               cont_cu++;
+              if(ref_dib_f == 3){
+                ref_dib_f = 4;
+              }              
               break;
               case 3:
               dib_tres(44, 300);
               cont_cu++;
+              if(ref_dib_f == 3){
+                ref_dib_f = 4;
+              }              
               break;
               case 4:
               dib_cuatro(44, 300);
               cont_cu++;
+              if(ref_dib_f == 3){
+                ref_dib_f = 4;
+              }              
               break;
               case 5:
               dib_cinco(44, 300);
               cont_cu++;
+              if(ref_dib_f == 3){
+                ref_dib_f = 4;
+              }              
               break;
               case 6:
               dib_seis(44, 300);
               cont_cu++;
+              if(ref_dib_f == 3){
+                ref_dib_f = 4;
+              }              
               break;
               case 7:
               dib_siete(44, 300);
               cont_cu++;
+              if(ref_dib_f == 3){
+                ref_dib_f = 4;
+              }              
               break;
               case 8:
               dib_ocho(44, 300);
               cont_cu++;
+              if(ref_dib_f == 3){
+                ref_dib_f = 4;
+              }              
               break;
               case 9:
               dib_nueve(44, 300);
               cont_cu++;
+              if(ref_dib_f == 3){
+                ref_dib_f = 4;
+              }              
               break;
               case 10:
               dib_cero(44, 300);
               cont_cu = 1;
+              if(ref_dib_f == 3){
+                ref_dib_f = 4;
+              }              
   // CONTADOR 5
                 switch(cont_ci){
                   case 1:
                   dib_uno(40, 300);
                   cont_ci++;
+                  if(ref_dib_f == 4){
+                    ref_dib_f = 5;
+                  }                  
                   break;
                   case 2:
                   dib_dos(40, 300);
                   cont_ci++;
+                  if(ref_dib_f == 4){
+                    ref_dib_f = 5;
+                  }
                   break;
                   case 3:
                   dib_tres(40, 300);
                   cont_ci++;
+                  if(ref_dib_f == 4){
+                    ref_dib_f = 5;
+                  }                  
                   break;
                   case 4:
                   dib_cuatro(40, 300);
                   cont_ci++;
+                  if(ref_dib_f == 4){
+                    ref_dib_f = 5;
+                  }                  
                   break;
                   case 5:
                   dib_cinco(40, 300);
                   cont_ci++;
+                  if(ref_dib_f == 4){
+                    ref_dib_f = 5;
+                  }
                   break;
                   case 6:
                   dib_seis(40, 300);
                   cont_ci++;
+                  if(ref_dib_f == 4){
+                    ref_dib_f = 5;
+                  }                  
                   break;
                   case 7:
                   dib_siete(40, 300);
                   cont_ci++;
+                  if(ref_dib_f == 4){
+                    ref_dib_f = 5;
+                  }                  
                   break;
                   case 8:
                   dib_ocho(40, 300);
                   cont_ci++;
+                  if(ref_dib_f == 4){
+                    ref_dib_f = 5;
+                  }                  
                   break;
                   case 9:
                   dib_nueve(40, 300);
                   cont_ci++;
+                  if(ref_dib_f == 4){
+                    ref_dib_f = 5;
+                  }                  
                   break;
                   case 10:
                   dib_cero(40, 300);
                   cont_ci = 1;
+                  if(ref_dib_f == 4){
+                    ref_dib_f = 5;
+                  }
   // CONTADOR 6
                 switch(cont_se){
                   case 1:
                   dib_uno(36, 300);
                   cont_se++;
+                  if(ref_dib_f == 5){
+                    ref_dib_f = 6;
+                  }
                   break;
                   case 2:
                   dib_dos(36, 300);
                   cont_se++;
+                  if(ref_dib_f == 5){
+                    ref_dib_f = 6;
+                  }
                   break;
                   case 3:
                   dib_tres(36, 300);
                   cont_se++;
+                  if(ref_dib_f == 5){
+                    ref_dib_f = 6;
+                  }
                   break;
                   case 4:
                   dib_cuatro(36, 300);
                   cont_se++;
+                  if(ref_dib_f == 5){
+                    ref_dib_f = 6;
+                  }
                   break;
                   case 5:
                   dib_cinco(36, 300);
                   cont_se++;
+                  if(ref_dib_f == 5){
+                    ref_dib_f = 6;
+                  }
                   break;
                   case 6:
                   dib_seis(36, 300);
                   cont_se++;
+                  if(ref_dib_f == 5){
+                    ref_dib_f = 6;
+                  }
                   break;
                   case 7:
                   dib_siete(36, 300);
                   cont_se++;
+                  if(ref_dib_f == 5){
+                    ref_dib_f = 6;
+                  }
                   break;
                   case 8:
                   dib_ocho(36, 300);
                   cont_se++;
+                  if(ref_dib_f == 5){
+                    ref_dib_f = 6;
+                  }
                   break;
                   case 9:
                   dib_nueve(36, 300);
                   cont_se++;
+                  if(ref_dib_f == 5){
+                    ref_dib_f = 6;
+                  }
                   break;
                   case 10:
                   dib_cero(36, 300);
                   cont_se = 1;
+                  if(ref_dib_f == 5){
+                    ref_dib_f = 6;
+                  }
                   break;
                 }
                 break;  
@@ -1021,6 +1210,298 @@ void contador(int *a, int *b, int *c, int *d, int *e, int *f, int *g, int *h){
   *f = cont_ci;
   *g = cont_se;
   *h = met_dest_f;
+  *i = ref_dib_f;
+}
+
+void dib_puntos(int *a, int *b, int *c, int *d, int *e, int *f, int *g, int *h){
+  int cont = *a;
+  int cont_u = *b;
+  int cont_d = *c;
+  int cont_t = *d;
+  int cont_cu = *e;
+  int cont_ci = *f;
+  int cont_se = *g;
+  int ref_dib_f = *h;
+  switch(ref_dib_f){
+    case 1:
+    cont_u = cont_u - 1;
+    break;
+    case 2:
+    cont_u = cont_u - 1;
+    cont_d = cont_d - 1;
+    break;
+    case 3:
+    cont_u = cont_u - 1;
+    cont_d = cont_d - 1;
+    cont_t = cont_t - 1;
+    break;
+    case 4:
+    cont_u = cont_u - 1;
+    cont_d = cont_d - 1;
+    cont_t = cont_t - 1;
+    cont_cu = cont_cu - 1;    
+    break;
+    case 5:
+    cont_u = cont_u - 1;
+    cont_d = cont_d - 1;
+    cont_t = cont_t - 1;
+    cont_cu = cont_cu - 1;
+    cont_ci = cont_ci - 1;    
+    break;
+    case 6:
+    cont_u = cont_u - 1;
+    cont_d = cont_d - 1;
+    cont_t = cont_t - 1;
+    cont_cu = cont_cu - 1;
+    cont_ci = cont_ci - 1;
+    cont_se = cont_se - 1;     
+    break;                
+  }
+  if(ref_dib_f > 0){
+    switch(cont_u){
+      case 1:
+      dib_uno(56, 300);
+      break;
+      case 2:
+      dib_dos(56, 300);
+      break;
+      case 3:
+      dib_tres(56, 300);
+      break;
+      case 4:
+      dib_cuatro(56, 300);
+      break;
+      case 5:
+      dib_cinco(56, 300);
+      break;
+      case 6:
+      dib_seis(56, 300);
+      break;
+      case 7:
+      dib_siete(56, 300);
+      break;
+      case 8:
+      dib_ocho(56, 300);
+      break;
+      case 9:
+      dib_nueve(56, 300);
+      break;
+      case 10:
+      dib_cero(56, 300);
+      break;
+    }
+  }
+    // CONTADOR  2
+  if(ref_dib_f > 1){
+    switch(cont_d){
+      case 1:
+      dib_uno(52, 300);
+      break;
+      case 2:
+      dib_dos(52, 300);
+      break;
+      case 3:
+      dib_tres(52, 300);
+      break;
+      case 4:
+      dib_cuatro(52, 300);
+      break;
+      case 5:
+      dib_cinco(52, 300);
+      break;
+      case 6:
+      dib_seis(52, 300);
+      break;
+      case 7:
+      dib_siete(52, 300);
+      break;
+      case 8:
+      dib_ocho(52, 300);
+      break;
+      case 9:
+      dib_nueve(52, 300);
+      break;
+      case 10:
+      dib_cero(52, 300);
+      break;
+    }
+  }
+  //CONTADOR 3
+  if(ref_dib_f > 2){
+    switch(cont_t){
+      case 1:
+      dib_uno(48, 300);
+      break;
+      case 2:
+      dib_dos(48, 300);
+      break;
+      case 3:
+      dib_tres(48, 300);
+      break;
+      case 4:
+      dib_cuatro(48, 300);
+      break;
+      case 5:
+      dib_cinco(48, 300);
+      break;
+      case 6:
+      dib_seis(48, 300);
+      break;
+      case 7:
+      dib_siete(48, 300);
+      break;
+      case 8:
+      dib_ocho(48, 300);
+      break;
+      case 9:
+      dib_nueve(48, 300);
+      break;
+      case 10:
+      dib_cero(48, 300);
+      break;
+    }
+  }  
+// CONTADOR 4
+  if(ref_dib_f > 3){
+    switch(cont_cu){
+      case 1:
+      dib_uno(44, 300);
+      break;
+      case 2:
+      dib_dos(44, 300);
+      break;
+      case 3:
+      dib_tres(44, 300);
+      break;
+      case 4:
+      dib_cuatro(44, 300);
+      break;
+      case 5:
+      dib_cinco(44, 300);
+      break;
+      case 6:
+      dib_seis(44, 300);   
+      break;
+      case 7:
+      dib_siete(44, 300);    
+      break;
+      case 8:
+      dib_ocho(44, 300);
+      break;
+      case 9:
+      dib_nueve(44, 300);
+      break;
+      case 10:
+      dib_cero(44, 300);
+      break;
+    }
+  }
+// CONTADOR 5
+  if(ref_dib_f > 4){
+    switch(cont_ci){
+      case 1:
+      dib_uno(40, 300); 
+      break;
+      case 2:
+      dib_dos(40, 300);
+      break;
+      case 3:
+      dib_tres(40, 300);
+      break;
+      case 4:
+      dib_cuatro(40, 300);
+      break;
+      case 5:
+      dib_cinco(40, 300);
+      break;
+      case 6:
+      dib_seis(40, 300);
+      break;
+      case 7:
+      dib_siete(40, 300);
+      break;
+      case 8:
+      dib_ocho(40, 300);
+      break;
+      case 9:
+      dib_nueve(40, 300);
+      break;
+      case 10:
+      dib_cero(40, 300);
+      break;
+    }
+  }
+
+// CONTADOR 6
+if(ref_dib_f > 5){
+    switch(cont_se){
+    case 1:
+    dib_uno(36, 300);
+    break;
+    case 2:
+    dib_dos(36, 300);
+    break;
+    case 3:
+    dib_tres(36, 300);
+    break;
+    case 4:
+    dib_cuatro(36, 300);
+    break;
+    case 5:
+    dib_cinco(36, 300);
+    break;
+    case 6:
+    dib_seis(36, 300);
+    break;
+    case 7:
+    dib_siete(36, 300);
+    break;
+    case 8:
+    dib_ocho(36, 300);
+    break;
+    case 9:
+    dib_nueve(36, 300);
+    break;
+    case 10:
+    dib_cero(36, 300);
+    break;
+  }
+}
+  ref_dib_f = 0;
+  *a = cont;
+  *b = cont_u;
+  *c = cont_d;
+  *d = cont_t;
+  *e = cont_cu;
+  *f = cont_ci;
+  *g = cont_se;
+  *h = ref_dib_f;
+}
+
+void rein_conts(int *a, int *b, int *c, int *d, int *e, int *f, int *g){
+  int cont = *a;
+  int cont_u = *b;
+  int cont_d = *c;
+  int cont_t = *d;
+  int cont_cu = *e;
+  int cont_ci = *f;
+  int cont_se = *g;
+
+  cont = 0;
+  cont_u = 1;
+  cont_d = 1;
+  cont_t = 1;
+  cont_cu = 1;
+  cont_ci = 1;
+  cont_se = 1;
+
+  *a = cont;
+  *b = cont_u;
+  *c = cont_d;
+  *d = cont_t;
+  *e = cont_cu;
+  *f = cont_ci;
+  *g = cont_se;
 }
 
 //Pantalla de inicio
@@ -1182,7 +1663,6 @@ int pos_fl_f = *b;
   *b = pos_fl_f; 
 }
 
-
 void dib_GaOv(){
   int letr_pos_y_gam = 140;
   // G
@@ -1235,4 +1715,26 @@ void dib_GaOv(){
   LCD_DrawRectangle(49*4,letr_pos_y_gam+(1*4),4*4,1*4,RED_COLOR);
   LCD_DrawRectangle(53*4,letr_pos_y_gam-(3*4),1*4,7*4,RED_COLOR);// Linea der
   LCD_DrawRectangle(53*4,letr_pos_y_gam+(1*4),1*4,1*4,0);// Linea der
+}
+
+void apagar(){
+  PlayMelody(melApagar);
+  LCD_DrawRectangle(0,0,SCREEN_WIDTH,SCREEN_HEIGHT,0);
+  LCD_DrawRectangle(70,  160, 100, 5, RED_COLOR);
+  LCD_DrawRectangle(165,  130, 5, 10, RED_COLOR);
+  LCD_DrawRectangle(70,  130, 5, 10, RED_COLOR);
+  SysSleep(500);
+  LCD_DrawRectangle(165,  125, 5, 10, 0);
+  LCD_DrawRectangle(70,  125, 5, 10, 0);
+  SysSleep(500);
+  LCD_DrawRectangle(165,  130, 5, 10, RED_COLOR);
+  LCD_DrawRectangle(70,  130, 5, 10, RED_COLOR);
+  SysSleep(250);
+  LCD_DrawRectangle(165,  125, 5, 10, 0);
+  LCD_DrawRectangle(70,  125, 5, 10, 0);
+  SysSleep(250);
+
+  LCD_DrawRectangle(0,0,SCREEN_WIDTH,SCREEN_HEIGHT,0);
+  DisablePower();
+  SysSleep(500);
 }

@@ -38,6 +38,7 @@
 #define BLUE_COLOR RGB565(0, 0, 255)
 #define WHITE_COLOR RGB565(255, 255, 255)
 #define BROWN_COLOR RGB565(128, 0, 0)
+#define GREY_COLOR  RGB565(240, 240, 240)
 
 //Sonidos
    const uint16_t melDisp[] = 
@@ -97,7 +98,7 @@
     0,0
     };
 //Control de juego general
-int start_pressed = 0, start_block = 1, start_game = 0, cont_mel_p = 50, gaOv_switch = 0 ,cont_GaOv_u = 0, cont_GaOv_d = 0;
+int start_pressed = 0, start_block = 1, start_game = 0, cont_mel_p = 50, gaOv_switch = 0 ,cont_GaOv_u = 0, cont_GaOv_d = 0, ref_dib = 0;
 
 //Provisionales
 
@@ -257,7 +258,7 @@ void MainMenuScreenHandler(void)
     event = GetUserInterfaceEvent();
     switch (event)
     {
-    case EV_INIT: break;// Initialization event
+    case EV_INIT: break;
     case EV_FULL_REDRAW:
     case EV_PARTIAL_REDRAW:
       // Clear screen
@@ -267,6 +268,7 @@ void MainMenuScreenHandler(void)
       break;
     case EV_TIMER_20MS:
       // Herramienta de debugging -> ESP_LOGI("scr_main", "ENTRADA: %d || %d", metpos_y, y_pos);
+
       //DIBUJA LA INTERFAZ
       if(start_pressed == 1){
       PlayMelody(melInicio);
@@ -280,10 +282,13 @@ void MainMenuScreenHandler(void)
       dib_dash();  
       start_pressed = 0;
       start_game = 1;
+      ref_dib = 0;
+      rein_conts(&cont, &cont_u, &cont_d, &cont_t, &cont_cu, &cont_ci, &cont_se);
       }
+
       // EMPIZA EL JUEGO
       if(start_game == 1){
-        contador(&cont, &cont_u, &cont_d, &cont_t, &cont_cu, &cont_ci, &cont_se, &met_dest);
+        contador(&cont, &cont_u, &cont_d, &cont_t, &cont_cu, &cont_ci, &cont_se, &met_dest, &ref_dib);
         //DISPARO
         disparo(&disp_switch, &disptemp, &disp_pos_x, &disp_pos_y, &x_pos, &y_pos, &disp_bal_men);
         //Comprobación del disparo y el meteorito 
@@ -315,6 +320,7 @@ void MainMenuScreenHandler(void)
         fondo(&cont_est_cu ,&act_cu, &vel_est, &vec_est_cu[0], &vec_est_cu[1], &vec_est_cu[2], &vec_est_cu[3], &vec_est_cu[4], &y_pos_est_cu);
         fondo(&cont_est_ci ,&act_ci, &vel_est, &vec_est_ci[0], &vec_est_ci[1], &vec_est_ci[2], &vec_est_ci[3], &vec_est_ci[4], &y_pos_est_ci);
       }
+
       // GAME OVER
       if(gaOv_switch == 1){
         start_game = 0;
@@ -328,6 +334,7 @@ void MainMenuScreenHandler(void)
         }
         if(++cont_GaOv_d >= 150){
           LCD_DrawRectangle(0,0,SCREEN_WIDTH,SCREEN_HEIGHT,0);
+          // Reinicio de variables
           cont_GaOv_u = 0;  
           cont_GaOv_d = 0;
           start_pressed = 0;
@@ -341,15 +348,18 @@ void MainMenuScreenHandler(void)
           cont_dash_anim = 1;
         }
       }
+
       // PANTALLA INICIAL
       if (start_game == 0 && start_pressed == 0 && start_block == 1){
         if(++cont_mel_p >= 150){
           cont_mel_p = 0;
           PlayMelody(melPrinc);
         }
-      dib_pant_princ();
-      anim_flechas(&cont_fle, &pos_fl);
+        dib_pant_princ();
+        anim_flechas(&cont_fle, &pos_fl);
+        dib_puntos(&cont, &cont_u, &cont_d, &cont_t, &cont_cu, &cont_ci, &cont_se, &ref_dib);
       }
+      
       dib_nave(&x_pos,&y_pos);//REDIBUJAMOS POR SI ACASO
       
       break;
@@ -387,9 +397,7 @@ void MainMenuScreenHandler(void)
       break;
     case EV_KEY_SELECT_PRESS:
       // Apagar
-      LCD_DrawRectangle(0,0,SCREEN_WIDTH,SCREEN_HEIGHT,0);
-      DisablePower();
-      SysSleep(500);
+      apagar();
       break;
     default: UIIdle();
     }
