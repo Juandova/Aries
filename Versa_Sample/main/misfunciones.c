@@ -1259,6 +1259,9 @@ void dib_puntos(int *a, int *b, int *c, int *d, int *e, int *f, int *g, int *h){
   }
   if(ref_dib_f > 0){
     switch(cont_u){
+      case 0:
+      dib_cero(56, 300);
+      break;
       case 1:
       dib_uno(56, 300);
       break;
@@ -1294,6 +1297,9 @@ void dib_puntos(int *a, int *b, int *c, int *d, int *e, int *f, int *g, int *h){
     // CONTADOR  2
   if(ref_dib_f > 1){
     switch(cont_d){
+      case 0:
+      dib_cero(52, 300);
+      break;
       case 1:
       dib_uno(52, 300);
       break;
@@ -1329,6 +1335,9 @@ void dib_puntos(int *a, int *b, int *c, int *d, int *e, int *f, int *g, int *h){
   //CONTADOR 3
   if(ref_dib_f > 2){
     switch(cont_t){
+      case 0:
+      dib_cero(48, 300);
+      break;
       case 1:
       dib_uno(48, 300);
       break;
@@ -1364,6 +1373,9 @@ void dib_puntos(int *a, int *b, int *c, int *d, int *e, int *f, int *g, int *h){
 // CONTADOR 4
   if(ref_dib_f > 3){
     switch(cont_cu){
+      case 0:
+      dib_cero(44, 300);
+      break;
       case 1:
       dib_uno(44, 300);
       break;
@@ -1399,6 +1411,9 @@ void dib_puntos(int *a, int *b, int *c, int *d, int *e, int *f, int *g, int *h){
 // CONTADOR 5
   if(ref_dib_f > 4){
     switch(cont_ci){
+      case 0:
+      dib_cero(40, 300);
+      break;
       case 1:
       dib_uno(40, 300); 
       break;
@@ -1435,6 +1450,9 @@ void dib_puntos(int *a, int *b, int *c, int *d, int *e, int *f, int *g, int *h){
 // CONTADOR 6
 if(ref_dib_f > 5){
     switch(cont_se){
+    case 0:
+    dib_cero(56, 300);
+    break;
     case 1:
     dib_uno(36, 300);
     break;

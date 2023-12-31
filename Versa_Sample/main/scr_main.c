@@ -346,6 +346,7 @@ void MainMenuScreenHandler(void)
           disp_bal_men = 0;
           dash_act = 1;
           cont_dash_anim = 1;
+          vel_met = 8;
         }
       }
 
@@ -358,6 +359,7 @@ void MainMenuScreenHandler(void)
         dib_pant_princ();
         anim_flechas(&cont_fle, &pos_fl);
         dib_puntos(&cont, &cont_u, &cont_d, &cont_t, &cont_cu, &cont_ci, &cont_se, &ref_dib);
+        ESP_LOGI("scr_main", "contador 3: %d", cont_t);
       }
       
       dib_nave(&x_pos,&y_pos);//REDIBUJAMOS POR SI ACASO
