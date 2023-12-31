@@ -25,14 +25,13 @@ void dib_nave(int *n, int *m);
 void borr_nave(int *n, int *m);
 void disparo(int *a, int *b, int *c, int *d, int *e, int *f, int *g);
 void recarga(int *a, int *b, int *c, int *d);
-void comp_nav();
 
 //******************************************************************************
 // METEORITO
 void dib_met(int *n, int *m);
 void borr_met(int *n, int *m);
 void met_anim(int *a, int *b, int *c, int *d, int *e, int *f, int *g);
-void met_comp(int *a, int *b, int *c, int *d, int *e, int *f, int *g, int *h, int *k);
+void met_comp(int *a, int *b, int *c, int *d, int *e, int *f, int *g, int *h, int *k, int *l);
 void control_vel(int *a, int *b);
 
 //******************************************************************************
@@ -70,5 +69,10 @@ void dib_siete(int n_pos_x, int n_pos_y);
 void dib_ocho(int n_pos_x, int n_pos_y);
 void dib_nueve(int n_pos_x, int n_pos_y);
 void contador(int *a, int *b, int *c, int *d, int *e, int *f, int *g, int *h);
-
+void dib_GaOv();
+ //Pantalla inicial
+void dib_pant_princ();
+void dib_flechas(int posu, int posd);
+void borr_flechas(int posu, int posd);
+void anim_flechas(int *a, int *b);
 #endif

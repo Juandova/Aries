@@ -33,6 +33,12 @@
     60, 20,
     0,0
     };
+      const uint16_t melNavDest[] = 
+    {
+    110, 250,   
+    0,0
+    };
+
 //******************************************************************************
 //NAVE
 
@@ -246,7 +252,7 @@ void met_anim(int *a, int *b, int *c, int *d, int *e, int *f, int *g){
   *g = iniciomet_f;
 }
 
-void met_comp(int *a, int *b, int *c, int *d, int *e, int *f, int *g, int *h, int *k){
+void met_comp(int *a, int *b, int *c, int *d, int *e, int *f, int *g, int *h, int *k, int *l){
 
   int disp_switch_f = *a;
   int met_switch_f = *b;
@@ -258,6 +264,7 @@ void met_comp(int *a, int *b, int *c, int *d, int *e, int *f, int *g, int *h, in
   int y_pos_f = *h;
   int var_comp_f, i, j;
   int met_dest_f = *k;
+  int gaOv_switch_f = *l;
   int vec_met_y_f[20], vec_disp_f[6], vec_nav_y_f[16];
   //Sonido
 
@@ -310,6 +317,8 @@ void met_comp(int *a, int *b, int *c, int *d, int *e, int *f, int *g, int *h, in
             LCD_DrawRectangle(metpos_x_f,metpos_y_f,1,10,WHITE_COLOR);
             LCD_DrawRectangle(x_pos_f - 1,y_pos_f,1,10,WHITE_COLOR);
             met_switch_f = 0;
+            gaOv_switch_f = 1;
+            PlayMelody(melNavDest);
             borr_met(&metpos_x_f,&metpos_y_f);
             dib_nave(&x_pos_f,&y_pos_f);
           }
@@ -328,11 +337,16 @@ void met_comp(int *a, int *b, int *c, int *d, int *e, int *f, int *g, int *h, in
  *g = x_pos_f;
  *h = y_pos_f;
  *k = met_dest_f;
+ *l = gaOv_switch_f;
 }
 
 void control_vel(int *a, int *b){
   int cont_vel_f = *a;
   int vel_met_f = *b;
+  if(++cont_vel_f >= 1500 && vel_met_f < 26){
+    cont_vel_f = 0;
+    vel_met_f = vel_met_f + 1;
+  }
   if(++cont_vel_f >= 1500 && vel_met_f < 26){
     cont_vel_f = 0;
     vel_met_f = vel_met_f + 1;
@@ -703,6 +717,7 @@ void dib_nueve(int n_pos_x, int n_pos_y){
 //******************************************************************************
 //CONTADOR
 void contador(int *a, int *b, int *c, int *d, int *e, int *f, int *g, int *h){
+
   int cont = *a;
   int cont_u = *b;
   int cont_d = *c;
@@ -1006,4 +1021,218 @@ void contador(int *a, int *b, int *c, int *d, int *e, int *f, int *g, int *h){
   *f = cont_ci;
   *g = cont_se;
   *h = met_dest_f;
+}
+
+//Pantalla de inicio
+void dib_pant_princ(){
+  
+      int letr_pos_y_inv = 110, letr_pos_y_cro = 74;
+      // C
+      LCD_DrawRectangle(13*4,letr_pos_y_cro-(3*4),4*4,1*4,WHITE_COLOR);// Linea superior
+      LCD_DrawRectangle(13*4,letr_pos_y_cro+(3*4),4*4,1*4,WHITE_COLOR);// Linea inferior
+      LCD_DrawRectangle(13*4,letr_pos_y_cro-(2*4),1*4,1*4,WHITE_COLOR);// Punto a la izq
+      LCD_DrawRectangle(13*4,letr_pos_y_cro+(2*4),1*4,1*4,WHITE_COLOR);// Punto a la izq
+      LCD_DrawRectangle(12*4,letr_pos_y_cro-(2*4),1*4,5*4,WHITE_COLOR);// Linea izq
+      // R
+      LCD_DrawRectangle(18*4,letr_pos_y_cro-(3*4),4*4,1*4,WHITE_COLOR);// Linea superior
+      LCD_DrawRectangle(18*4,letr_pos_y_cro-(3*4),1*4,7*4,WHITE_COLOR);// Linea izq 
+      LCD_DrawRectangle(21*4,letr_pos_y_cro,1*4,3*4,WHITE_COLOR);// Linea 1der
+      LCD_DrawRectangle(18*4,letr_pos_y_cro+(1*4),4*4,1*4,WHITE_COLOR);
+      LCD_DrawRectangle(22*4,letr_pos_y_cro-(3*4),1*4,7*4,WHITE_COLOR);// Linea der
+      LCD_DrawRectangle(22*4,letr_pos_y_cro+(1*4),1*4,1*4,0);// Linea der
+      // O
+      LCD_DrawRectangle(25*4,letr_pos_y_cro-(3*4),3*4,1*4,WHITE_COLOR);// Linea superior
+      LCD_DrawRectangle(25*4,letr_pos_y_cro+(3*4),3*4,1*4,WHITE_COLOR);// Linea inferior
+      LCD_DrawRectangle(25*4,letr_pos_y_cro-(2*4),1*4,1*4,WHITE_COLOR);// Punto a la izq
+      LCD_DrawRectangle(25*4,letr_pos_y_cro+(2*4),1*4,1*4,WHITE_COLOR);// Punto a la izq
+      LCD_DrawRectangle(24*4,letr_pos_y_cro-(2*4),1*4,5*4,WHITE_COLOR);// Linea izq
+      LCD_DrawRectangle(28*4,letr_pos_y_cro-(2*4),1*4,5*4,WHITE_COLOR);// Linea der
+      LCD_DrawRectangle(27*4,letr_pos_y_cro-(2*4),1*4,1*4,WHITE_COLOR);// Punto a la der
+      LCD_DrawRectangle(27*4,letr_pos_y_cro+(2*4),1*4,1*4,WHITE_COLOR);// Punto a la der
+
+      // S
+      LCD_DrawRectangle(30*4,letr_pos_y_cro-(3*4),1*4,4*4,WHITE_COLOR);// Linea izq
+      LCD_DrawRectangle(34*4,letr_pos_y_cro,1*4,4*4,WHITE_COLOR);// Linea der      
+      LCD_DrawRectangle(30*4,letr_pos_y_cro,5*4,1*4,WHITE_COLOR);// Linea horizontal central
+      LCD_DrawRectangle(30*4,letr_pos_y_cro-(3*4),5*4,1*4,WHITE_COLOR);// Linea superior
+      LCD_DrawRectangle(30*4,letr_pos_y_cro+(3*4),5*4,1*4,WHITE_COLOR);// Linea inferior 
+      // S
+      LCD_DrawRectangle(36*4,letr_pos_y_cro-(3*4),1*4,4*4,WHITE_COLOR);// Linea izq
+      LCD_DrawRectangle(40*4,letr_pos_y_cro,1*4,4*4,WHITE_COLOR);// Linea der      
+      LCD_DrawRectangle(36*4,letr_pos_y_cro,5*4,1*4,WHITE_COLOR);// Linea horizontal central
+      LCD_DrawRectangle(36*4,letr_pos_y_cro-(3*4),5*4,1*4,WHITE_COLOR);// Linea superior
+      LCD_DrawRectangle(36*4,letr_pos_y_cro+(3*4),5*4,1*4,WHITE_COLOR);// Linea inferior 
+      // Y
+      LCD_DrawRectangle(44*4,letr_pos_y_cro,1*4,4*4,WHITE_COLOR);// Linea vertical central
+      LCD_DrawRectangle(42*4,letr_pos_y_cro-(3*4),1*4,2*4,WHITE_COLOR);// Linea izq
+      LCD_DrawRectangle(46*4,letr_pos_y_cro-(3*4),1*4,2*4,WHITE_COLOR);// Linea der 
+      LCD_DrawRectangle(43*4,letr_pos_y_cro-(1*4),1*4,1*4,WHITE_COLOR);// Punto a la izq
+      LCD_DrawRectangle(45*4,letr_pos_y_cro-(1*4),1*4,1*4,WHITE_COLOR);// Punto a la der
+
+      // I
+      LCD_DrawRectangle(8*4,letr_pos_y_inv-(3*4),1*4,7*4,WHITE_COLOR);// Linea vertical central
+      LCD_DrawRectangle(6*4,letr_pos_y_inv-(3*4),5*4,1*4,WHITE_COLOR);// Linea superior
+      LCD_DrawRectangle(6*4,letr_pos_y_inv+(3*4),5*4,1*4,WHITE_COLOR);// Linea inferior
+      // N
+      LCD_DrawRectangle(14*4,letr_pos_y_inv-(1*4),1*4,3*4,WHITE_COLOR);// Linea vertical central
+      LCD_DrawRectangle(13*4,letr_pos_y_inv-(2*4),1*4,1*4,WHITE_COLOR);// Punto a la izq
+      LCD_DrawRectangle(15*4,letr_pos_y_inv+(2*4),1*4,1*4,WHITE_COLOR);// Punto a la der
+      LCD_DrawRectangle(12*4,letr_pos_y_inv-(3*4),1*4,7*4,WHITE_COLOR);// Linea izq
+      LCD_DrawRectangle(16*4,letr_pos_y_inv-(3*4),1*4,7*4,WHITE_COLOR);// Linea der
+      // V
+      LCD_DrawRectangle(20*4,letr_pos_y_inv+(2*4),1*4,2*4,WHITE_COLOR);// Linea vertical central
+      LCD_DrawRectangle(19*4,letr_pos_y_inv,1*4,3*4,WHITE_COLOR);// Linea 1izq
+      LCD_DrawRectangle(21*4,letr_pos_y_inv,1*4,3*4,WHITE_COLOR);// Linea 1der
+      LCD_DrawRectangle(18*4,letr_pos_y_inv-(3*4),1*4,4*4,WHITE_COLOR);// Linea 2izq
+      LCD_DrawRectangle(22*4,letr_pos_y_inv-(3*4),1*4,4*4,WHITE_COLOR);// Linea 2der
+      // A
+      LCD_DrawRectangle(24*4,letr_pos_y_inv-(3*4),5*4,1*4,WHITE_COLOR);// Linea superior
+      LCD_DrawRectangle(24*4,letr_pos_y_inv-(3*4),1*4,7*4,WHITE_COLOR);// Linea izq
+      LCD_DrawRectangle(28*4,letr_pos_y_inv-(3*4),1*4,7*4,WHITE_COLOR);// Linea der
+      LCD_DrawRectangle(24*4,letr_pos_y_inv,5*4,1*4,WHITE_COLOR);// Linea horizontal central
+      // D
+      LCD_DrawRectangle(30*4,letr_pos_y_inv-(3*4),1*4,7*4,WHITE_COLOR);// Linea izq
+      LCD_DrawRectangle(30*4,letr_pos_y_inv-(3*4),4*4,1*4,WHITE_COLOR);// Linea superior
+      LCD_DrawRectangle(30*4,letr_pos_y_inv+(3*4),4*4,1*4,WHITE_COLOR);// Linea inferior
+      LCD_DrawRectangle(34*4,letr_pos_y_inv-(2*4),1*4,5*4,WHITE_COLOR);// Linea der
+      // E
+      LCD_DrawRectangle(36*4,letr_pos_y_inv-(3*4),5*4,1*4,WHITE_COLOR);// Linea superior
+      LCD_DrawRectangle(36*4,letr_pos_y_inv+(3*4),5*4,1*4,WHITE_COLOR);// Linea inferior 
+      LCD_DrawRectangle(36*4,letr_pos_y_inv-(3*4),1*4,7*4,WHITE_COLOR);// Linea izq     
+      LCD_DrawRectangle(36*4,letr_pos_y_inv,3*4,1*4,WHITE_COLOR);// Linea horizontal central
+      // R
+      LCD_DrawRectangle(42*4,letr_pos_y_inv-(3*4),4*4,1*4,WHITE_COLOR);// Linea superior
+      LCD_DrawRectangle(42*4,letr_pos_y_inv-(3*4),1*4,7*4,WHITE_COLOR);// Linea izq 
+      LCD_DrawRectangle(45*4,letr_pos_y_inv,1*4,3*4,WHITE_COLOR);// Linea 1der
+      LCD_DrawRectangle(42*4,letr_pos_y_inv+(1*4),4*4,1*4,WHITE_COLOR);
+      LCD_DrawRectangle(46*4,letr_pos_y_inv-(3*4),1*4,7*4,WHITE_COLOR);// Linea der
+      LCD_DrawRectangle(46*4,letr_pos_y_inv+(1*4),1*4,1*4,0);// Linea der
+      // S
+      LCD_DrawRectangle(48*4,letr_pos_y_inv-(3*4),1*4,4*4,WHITE_COLOR);// Linea izq
+      LCD_DrawRectangle(52*4,letr_pos_y_inv,1*4,4*4,WHITE_COLOR);// Linea der      
+      LCD_DrawRectangle(48*4,letr_pos_y_inv,5*4,1*4,WHITE_COLOR);// Linea horizontal central
+      LCD_DrawRectangle(48*4,letr_pos_y_inv-(3*4),5*4,1*4,WHITE_COLOR);// Linea superior
+      LCD_DrawRectangle(48*4,letr_pos_y_inv+(3*4),5*4,1*4,WHITE_COLOR);// Linea inferior 
+
+      //Play
+      LCD_DrawRectangle((41 + 2)*4, 274 - (2*4), 1*4, 5*4, GREEN_COLOR);// Li1
+      LCD_DrawRectangle((41 + 3)*4, 274 - (1*4), 1*4, 3*4, GREEN_COLOR);// Li2
+      LCD_DrawRectangle((41 + 4)*4, 274, 1*4, 1*4, GREEN_COLOR);// Li2
+      //Power OFF
+      LCD_DrawRectangle((15)*4, 274 - (1*4), 1*4, 3*4, RED_COLOR);// Línea centro
+      LCD_DrawRectangle((17)*4, 274 - (2*4), 1*4, 2*4, RED_COLOR);
+      LCD_DrawRectangle((19)*4, 274 - (1*4), 1*4, 3*4, RED_COLOR);// Línea centro
+      LCD_DrawRectangle((16)*4, 274 + (2*4), 3*4, 1*4, RED_COLOR);// Línea centro  
+}
+
+void dib_flechas(int posu, int posd){
+  //Flecha izq (Pos in = 10) Restar pos
+  LCD_DrawRectangle((posu - 4)*4, 274, 6*4, 1*4, YELLOW_COLOR);// Línea centro
+  LCD_DrawRectangle((posu - 2)*4, 274 - (2*4), 1*4, 5*4, YELLOW_COLOR);// Ld1
+  LCD_DrawRectangle((posu - 3)*4, 274 - (1*4), 1*4, 3*4, YELLOW_COLOR);// Ld2
+  //Flecha der (Pos in = 50) Sumar pos
+  LCD_DrawRectangle((posd - 1)*4, 274, 6*4, 1*4, YELLOW_COLOR);// Línea centro
+  LCD_DrawRectangle((posd + 2)*4, 274 - (2*4), 1*4, 5*4, YELLOW_COLOR);// Li1
+  LCD_DrawRectangle((posd + 3)*4, 274 - (1*4), 1*4, 3*4, YELLOW_COLOR);// Li2
+}
+
+void borr_flechas(int posu, int posd){
+  //Flecha izq (Pos in = 10)
+  LCD_DrawRectangle((posu - 4)*4, 274, 6*4, 1*4, 0);// Línea centro
+  LCD_DrawRectangle((posu - 2)*4, 274 - (2*4), 1*4, 5*4, 0);// Ld1
+  LCD_DrawRectangle((posu - 3)*4, 274 - (1*4), 1*4, 3*4, 0);// Ld2
+  //Flecha der (Pos in = 50)
+  LCD_DrawRectangle((posd - 1)*4, 274, 6*4, 1*4, 0);// Línea centro
+  LCD_DrawRectangle((posd + 2)*4, 274 - (2*4), 1*4, 5*4, 0);// Li1
+  LCD_DrawRectangle((posd + 3)*4, 274 - (1*4), 1*4, 3*4, 0);// Li2
+}
+
+void anim_flechas(int *a, int *b){
+int cont_fle_f = *a; 
+int pos_fl_f = *b; 
+  if(++cont_fle_f >= 15){ //aumentara 1 valor por segundo -> animación
+    cont_fle_f = 0;
+    switch(pos_fl_f){
+      case 1:
+      borr_flechas(10,50);
+      dib_flechas(9,51);
+      pos_fl_f++;
+      break;
+      case 2: 
+      borr_flechas(9,51);
+      dib_flechas(8,52);
+      pos_fl_f++;
+      break;
+      case 3:
+      borr_flechas(8,52);
+      dib_flechas(9,51);
+      pos_fl_f++;
+      break;
+      case 4:
+      borr_flechas(9,51);
+      dib_flechas(10,50);
+      pos_fl_f++;
+      break;
+      case 5:
+      pos_fl_f = 1;
+      break;
+    }
+  }
+  *a = cont_fle_f; 
+  *b = pos_fl_f; 
+}
+
+
+void dib_GaOv(){
+  int letr_pos_y_gam = 140;
+  // G
+  LCD_DrawRectangle(7*4,letr_pos_y_gam-(3*4),4*3,1*4,RED_COLOR);// Linea superior
+  LCD_DrawRectangle(7*4,letr_pos_y_gam+(3*4),4*3,1*4,RED_COLOR);// Linea inferior
+  LCD_DrawRectangle(6*4,letr_pos_y_gam-(2*4),1*4,5*4,RED_COLOR);// Linea izq
+  LCD_DrawRectangle(10*4,letr_pos_y_gam-(2*4),1*4,5*4,RED_COLOR);// Linea der
+  LCD_DrawRectangle(10*4,letr_pos_y_gam-(1*4),1*4,1*4,0);// Linea der
+  LCD_DrawRectangle(9*4,letr_pos_y_gam,1*4,1*4,RED_COLOR);// Linea der
+  // A
+  LCD_DrawRectangle(12*4,letr_pos_y_gam-(3*4),5*4,1*4,RED_COLOR);// Linea superior
+  LCD_DrawRectangle(12*4,letr_pos_y_gam-(3*4),1*4,7*4,RED_COLOR);// Linea izq
+  LCD_DrawRectangle(16*4,letr_pos_y_gam-(3*4),1*4,7*4,RED_COLOR);// Linea der
+  LCD_DrawRectangle(12*4,letr_pos_y_gam,5*4,1*4,RED_COLOR);// Linea horizontal central
+  // M
+  LCD_DrawRectangle(19*4,letr_pos_y_gam-(2*4),1*4,1*4,RED_COLOR);
+  LCD_DrawRectangle(21*4,letr_pos_y_gam-(2*4),1*4,1*4,RED_COLOR);
+  LCD_DrawRectangle(18*4,letr_pos_y_gam-(3*4),1*4,7*4,RED_COLOR);// Linea izq
+  LCD_DrawRectangle(22*4,letr_pos_y_gam-(3*4),1*4,7*4,RED_COLOR);// Linea der
+  LCD_DrawRectangle(20*4,letr_pos_y_gam-(1*4),1*4,2*4,RED_COLOR);// Linea horizontal central
+  // E
+  LCD_DrawRectangle(24*4,letr_pos_y_gam-(3*4),5*4,1*4,RED_COLOR);// Linea superior
+  LCD_DrawRectangle(24*4,letr_pos_y_gam+(3*4),5*4,1*4,RED_COLOR);// Linea inferior 
+  LCD_DrawRectangle(24*4,letr_pos_y_gam-(3*4),1*4,7*4,RED_COLOR);// Linea izq     
+  LCD_DrawRectangle(24*4,letr_pos_y_gam,3*4,1*4,RED_COLOR);// Linea horizontal central
+  // O
+  LCD_DrawRectangle(32*4,letr_pos_y_gam-(3*4),3*4,1*4,RED_COLOR);// Linea superior
+  LCD_DrawRectangle(32*4,letr_pos_y_gam+(3*4),3*4,1*4,RED_COLOR);// Linea inferior
+  LCD_DrawRectangle(32*4,letr_pos_y_gam-(2*4),1*4,1*4,RED_COLOR);// Punto a la izq
+  LCD_DrawRectangle(32*4,letr_pos_y_gam+(2*4),1*4,1*4,RED_COLOR);// Punto a la izq
+  LCD_DrawRectangle(31*4,letr_pos_y_gam-(2*4),1*4,5*4,RED_COLOR);// Linea izq
+  LCD_DrawRectangle(35*4,letr_pos_y_gam-(2*4),1*4,5*4,RED_COLOR);// Linea der
+  LCD_DrawRectangle(34*4,letr_pos_y_gam-(2*4),1*4,1*4,RED_COLOR);// Punto a la der
+  LCD_DrawRectangle(34*4,letr_pos_y_gam+(2*4),1*4,1*4,RED_COLOR);// Punto a la der
+  // V
+  LCD_DrawRectangle(39*4,letr_pos_y_gam+(2*4),1*4,2*4,RED_COLOR);// Linea vertical central
+  LCD_DrawRectangle(38*4,letr_pos_y_gam,1*4,3*4,RED_COLOR);// Linea 1izq
+  LCD_DrawRectangle(40*4,letr_pos_y_gam,1*4,3*4,RED_COLOR);// Linea 1der
+  LCD_DrawRectangle(37*4,letr_pos_y_gam-(3*4),1*4,4*4,RED_COLOR);// Linea 2izq
+  LCD_DrawRectangle(41*4,letr_pos_y_gam-(3*4),1*4,4*4,RED_COLOR);// Linea 2der
+  // E
+  LCD_DrawRectangle(43*4,letr_pos_y_gam-(3*4),5*4,1*4,RED_COLOR);// Linea superior
+  LCD_DrawRectangle(43*4,letr_pos_y_gam+(3*4),5*4,1*4,RED_COLOR);// Linea inferior 
+  LCD_DrawRectangle(43*4,letr_pos_y_gam-(3*4),1*4,7*4,RED_COLOR);// Linea izq     
+  LCD_DrawRectangle(43*4,letr_pos_y_gam,3*4,1*4,RED_COLOR);// Linea horizontal central
+  // R
+  LCD_DrawRectangle(49*4,letr_pos_y_gam-(3*4),4*4,1*4,RED_COLOR);// Linea superior
+  LCD_DrawRectangle(49*4,letr_pos_y_gam-(3*4),1*4,7*4,RED_COLOR);// Linea izq 
+  LCD_DrawRectangle(52*4,letr_pos_y_gam,1*4,3*4,RED_COLOR);// Linea 1der
+  LCD_DrawRectangle(49*4,letr_pos_y_gam+(1*4),4*4,1*4,RED_COLOR);
+  LCD_DrawRectangle(53*4,letr_pos_y_gam-(3*4),1*4,7*4,RED_COLOR);// Linea der
+  LCD_DrawRectangle(53*4,letr_pos_y_gam+(1*4),1*4,1*4,0);// Linea der
 }

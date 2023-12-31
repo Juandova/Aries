@@ -64,7 +64,16 @@
     440, 250,
     392, 250,    
     0,0
-    };
+    }; // Tardará por tanto 3 s en reproducirse -> En el timer será 150
+      const uint16_t melGaOv[] = 
+    {
+    220, 500,
+    196, 500,
+    185, 500,
+    175, 500,    
+    0,0
+    }; // Tardará por tanto 2 s en reproducirse -> En el timer será 100
+
     const uint16_t melDash[] = 
     {
     1397, 30,
@@ -77,9 +86,23 @@
     0,0
     };
 
+    const uint16_t melInicio[] = 
+    {
+    1976, 25,
+    2093, 25,
+    2217, 25, 
+    2349, 25,
+    2489, 25,
+    2637, 25,
+    0,0
+    };
+//Control de juego general
+int start_pressed = 0, start_block = 1, start_game = 0, cont_mel_p = 50, gaOv_switch = 0 ,cont_GaOv_u = 0, cont_GaOv_d = 0;
+
+//Provisionales
+
+
 //Nave
-int y_line = 24;
-int x_line = 32;
 int y_pos = 208;
 int x_pos = 120;
 //Disparo
@@ -121,8 +144,8 @@ int iniciomet = 0, iniciomet_d = 0, iniciomet_t = 0, iniciomet_cu = 0, iniciomet
 int cont_switch = 0, cont_switch_d = 20, cont_switch_t = 40, cont_switch_cu = 60, cont_switch_ci = 80;
 int cont_met = 0, cont_met_d = 0, cont_met_t = 0, cont_met_cu = 0, cont_met_ci = 0; 
 
-//PROVISIONALES
-int cont_prov = 0;
+//Animacion felchas
+int cont_fle = 0, pos_fl = 1;
 
 
 //Temporizadores
@@ -140,91 +163,79 @@ static void EmphasizeButton(tUIEvent button)
 // Returns: none
 //******************************************************************************
 {
-// Grid
-
-  /*
-   while(y_line < 240){
-    LCD_DrawRectangle(y_line, 0, 2, 320, GREEN_COLOR);
-    y_line=y_line + 24;
-  }
-    while(x_line < 320){
-    LCD_DrawRectangle(0, x_line, 240, 2, GREEN_COLOR);
-    x_line = x_line + 32;
-  }
-  */
 
   switch (button)
   {
   case EV_FULL_REDRAW:
-  case EV_PARTIAL_REDRAW: 
-    
-    // Interfaz
-    
-    // Bordes
-    dib_bordes();
-
-    //Disparos
-    dib_balas();
-
-    //Dash
-    dib_dash();       
-
+  case EV_PARTIAL_REDRAW:         
     //Modelo de la nave
     dib_nave(&x_pos,&y_pos);
-    
-    LCD_DrawRectangle(metpos_x, y_pos - 10, 1, 20, WHITE_COLOR);
-    LCD_DrawRectangle(x_pos-1, y_pos - 10, 1, 17, GREEN_COLOR);
-
     break;
 
   case EV_KEY_UP_PRESS:
-    mov_arriba(&x_pos, &y_pos);
+    if(start_game == 1){
+      mov_arriba(&x_pos, &y_pos);
+    }
     break;
 
   case EV_KEY_DOWN_PRESS:
-    mov_abajo(&x_pos, &y_pos);
+    if(start_game == 1){
+      mov_abajo(&x_pos, &y_pos);
+    }   
     break;
 
   case EV_KEY_LEFT_PRESS:
-    mov_izq(&x_pos, &y_pos);
+    if(start_game == 1){
+      mov_izq(&x_pos, &y_pos);
+    }  
     break;
 
   case EV_KEY_RIGHT_PRESS:
-    mov_der(&x_pos,&y_pos);
+    if(start_game == 1){
+      mov_der(&x_pos,&y_pos);
+    }  
     break;
 
   case EV_KEY_OK_PRESS:
-    if(disp_switch == 0 && disp_bal_men == 3 && act_rec == 0){
-    act_rec = 1;
-    }
+    if(start_game == 1){
+      if(disp_switch == 0 && disp_bal_men == 3 && act_rec == 0){
+      act_rec = 1;
+      }
+    } 
     break;
 
-  case EV_KEY_RETURN_PRESS:  
-    if(disp_switch == 0 && disp_bal_men < 3){
-    PlayMelody(melDisp);
-    disp_bal_men++;
-    disp_switch = 1;
-    disp_pos_y = y_pos - 20;
-    disp_pos_x = x_pos - 1;
-  }
+  case EV_KEY_RETURN_PRESS:
+    if(start_game == 1){
+      if(disp_switch == 0 && disp_bal_men < 3){
+        PlayMelody(melDisp);
+        disp_bal_men++;
+        disp_switch = 1;
+        disp_pos_y = y_pos - 20;
+        disp_pos_x = x_pos - 1;
+      }
+    }   
     break;
 
   case EV_KEY_L_TRIGGER_PRESS: 
-  //Diseñar dash izquierdo
-  if(dash_act == 1){
-    PlayMelody(melDash);
-    dash_izq(&x_pos, &y_pos);
-    dash_act = 0;
-    borr_dash();
-  }
-    break;
-  case EV_KEY_R_TRIGGER_PRESS:
+  if(start_game == 1){
     if(dash_act == 1){
       PlayMelody(melDash);
-      dash_der(&x_pos, &y_pos);
+      dash_izq(&x_pos, &y_pos);
       dash_act = 0;
       borr_dash();
     }
+  } 
+    break;
+
+  case EV_KEY_R_TRIGGER_PRESS:
+    if(start_game == 1){
+      if(dash_act == 1){
+        PlayMelody(melDash);
+        dash_der(&x_pos, &y_pos);
+        dash_act = 0;
+        borr_dash();
+      }
+    }  
     break;
     default:
     break;
@@ -255,46 +266,94 @@ void MainMenuScreenHandler(void)
       EmphasizeButton(event);
       break;
     case EV_TIMER_20MS:
+      // Herramienta de debugging -> ESP_LOGI("scr_main", "ENTRADA: %d || %d", metpos_y, y_pos);
+      //DIBUJA LA INTERFAZ
+      if(start_pressed == 1){
+      PlayMelody(melInicio);
+      // Interfaz
+      LCD_DrawRectangle(0,0,SCREEN_WIDTH,SCREEN_HEIGHT,0);
+      // Dibuja Bordes
+      dib_bordes();
+      //Dibuja Disparos
+      dib_balas();
+      //Dibuja Dash
+      dib_dash();  
+      start_pressed = 0;
+      start_game = 1;
+      }
+      // EMPIZA EL JUEGO
+      if(start_game == 1){
+        contador(&cont, &cont_u, &cont_d, &cont_t, &cont_cu, &cont_ci, &cont_se, &met_dest);
+        //DISPARO
+        disparo(&disp_switch, &disptemp, &disp_pos_x, &disp_pos_y, &x_pos, &y_pos, &disp_bal_men);
+        //Comprobación del disparo y el meteorito 
+        recarga(&act_rec, &cont_rec, &disp_bal_men, &anim_rec);
+        // Vemos si el meteorito es alcanzado por la nave o el disparo
+        met_comp(&disp_switch, &met_switch, &metpos_x, &metpos_y, &disp_pos_x, &disp_pos_y, &x_pos, &y_pos, &met_dest, &gaOv_switch);
+        met_comp(&disp_switch, &met_switch_d, &metpos_x_d, &metpos_y_d, &disp_pos_x, &disp_pos_y, &x_pos, &y_pos, &met_dest, &gaOv_switch);
+        met_comp(&disp_switch, &met_switch_t, &metpos_x_t, &metpos_y_t, &disp_pos_x, &disp_pos_y, &x_pos, &y_pos, &met_dest, &gaOv_switch);
+        met_comp(&disp_switch, &met_switch_cu, &metpos_x_cu, &metpos_y_cu, &disp_pos_x, &disp_pos_y, &x_pos, &y_pos, &met_dest, &gaOv_switch);
+        met_comp(&disp_switch, &met_switch_ci, &metpos_x_ci, &metpos_y_ci, &disp_pos_x, &disp_pos_y, &x_pos, &y_pos, &met_dest, &gaOv_switch);
 
-    
-      contador(&cont, &cont_u, &cont_d, &cont_t, &cont_cu, &cont_ci, &cont_se, &met_dest);
-      //DISPARO
-      disparo(&disp_switch, &disptemp, &disp_pos_x, &disp_pos_y, &x_pos, &y_pos, &disp_bal_men);
-      //Comprobación del disparo y el meteorito 
-      recarga(&act_rec, &cont_rec, &disp_bal_men, &anim_rec);
-      // Vemos si el meteorito es alcanzado por la nave o el disparo
-      met_comp(&disp_switch, &met_switch, &metpos_x, &metpos_y, &disp_pos_x, &disp_pos_y, &x_pos, &y_pos, &met_dest);
-      met_comp(&disp_switch, &met_switch_d, &metpos_x_d, &metpos_y_d, &disp_pos_x, &disp_pos_y, &x_pos, &y_pos, &met_dest);
-      met_comp(&disp_switch, &met_switch_t, &metpos_x_t, &metpos_y_t, &disp_pos_x, &disp_pos_y, &x_pos, &y_pos, &met_dest);
-      met_comp(&disp_switch, &met_switch_cu, &metpos_x_cu, &metpos_y_cu, &disp_pos_x, &disp_pos_y, &x_pos, &y_pos, &met_dest);
-      met_comp(&disp_switch, &met_switch_ci, &metpos_x_ci, &metpos_y_ci, &disp_pos_x, &disp_pos_y, &x_pos, &y_pos, &met_dest);
+        //Sale el metorito de forma aleatoria, espera 2s después de desaparecer despues de desaparecer 
+        //Cada 30 segundos va más rapido
+        control_vel(&cont_vel, &vel_met);
 
-      //ESP_LOGI("scr_main", "ENTRADA: %d || %d", metpos_y, y_pos);
+        //GENERAMOS METEORITOS
+        met_anim(&cont_met, &metpos_x, &metpos_y, &met_switch, &vel_met, &cont_switch, &iniciomet);
+        met_anim(&cont_met_d, &metpos_x_d, &metpos_y_d, &met_switch_d, &vel_met, &cont_switch_d, &iniciomet_d);
+        met_anim(&cont_met_t, &metpos_x_t, &metpos_y_t, &met_switch_t, &vel_met, &cont_switch_t, &iniciomet_t);
+        met_anim(&cont_met_cu, &metpos_x_cu, &metpos_y_cu, &met_switch_cu, &vel_met, &cont_switch_cu, &iniciomet_cu);
+        met_anim(&cont_met_ci, &metpos_x_ci, &metpos_y_ci, &met_switch_ci, &vel_met, &cont_switch_ci, &iniciomet_ci); 
 
-      //Sale el metorito de forma aleatoria, espera 2s después de desaparecer despues de desaparecer 
-      //Cada 30 segundos va más rapido
-      control_vel(&cont_vel, &vel_met);
+        dib_dash_rec(&dash_act, &cont_dash, &cont_dash_anim);//CONTROLA EL DASH
 
-      //GENERAMOS METEORITOS
-      met_anim(&cont_met, &metpos_x, &metpos_y, &met_switch, &vel_met, &cont_switch, &iniciomet);
-      met_anim(&cont_met_d, &metpos_x_d, &metpos_y_d, &met_switch_d, &vel_met, &cont_switch_d, &iniciomet_d);
-      met_anim(&cont_met_t, &metpos_x_t, &metpos_y_t, &met_switch_t, &vel_met, &cont_switch_t, &iniciomet_t);
-      met_anim(&cont_met_cu, &metpos_x_cu, &metpos_y_cu, &met_switch_cu, &vel_met, &cont_switch_cu, &iniciomet_cu);
-      met_anim(&cont_met_ci, &metpos_x_ci, &metpos_y_ci, &met_switch_ci, &vel_met, &cont_switch_ci, &iniciomet_ci); 
-
-      dib_dash_rec(&dash_act, &cont_dash, &cont_dash_anim);//CONTROLA EL DASH
-
-      //Dibujo del fondo estrellado
-      fondo(&cont_est_u ,&act_u, &vel_est, &vec_est_u[0], &vec_est_u[1], &vec_est_u[2], &vec_est_u[3], &vec_est_u[4], &y_pos_est_u);
-      fondo(&cont_est_d ,&act_d, &vel_est, &vec_est_d[0], &vec_est_d[1], &vec_est_d[2], &vec_est_d[3], &vec_est_d[4], &y_pos_est_d);
-      fondo(&cont_est_t ,&act_t, &vel_est, &vec_est_t[0], &vec_est_t[1], &vec_est_t[2], &vec_est_t[3], &vec_est_t[4], &y_pos_est_t);
-      fondo(&cont_est_cu ,&act_cu, &vel_est, &vec_est_cu[0], &vec_est_cu[1], &vec_est_cu[2], &vec_est_cu[3], &vec_est_cu[4], &y_pos_est_cu);
-      fondo(&cont_est_ci ,&act_ci, &vel_est, &vec_est_ci[0], &vec_est_ci[1], &vec_est_ci[2], &vec_est_ci[3], &vec_est_ci[4], &y_pos_est_ci);
-      
+        //Dibujo del fondo estrellado
+        fondo(&cont_est_u ,&act_u, &vel_est, &vec_est_u[0], &vec_est_u[1], &vec_est_u[2], &vec_est_u[3], &vec_est_u[4], &y_pos_est_u);
+        fondo(&cont_est_d ,&act_d, &vel_est, &vec_est_d[0], &vec_est_d[1], &vec_est_d[2], &vec_est_d[3], &vec_est_d[4], &y_pos_est_d);
+        fondo(&cont_est_t ,&act_t, &vel_est, &vec_est_t[0], &vec_est_t[1], &vec_est_t[2], &vec_est_t[3], &vec_est_t[4], &y_pos_est_t);
+        fondo(&cont_est_cu ,&act_cu, &vel_est, &vec_est_cu[0], &vec_est_cu[1], &vec_est_cu[2], &vec_est_cu[3], &vec_est_cu[4], &y_pos_est_cu);
+        fondo(&cont_est_ci ,&act_ci, &vel_est, &vec_est_ci[0], &vec_est_ci[1], &vec_est_ci[2], &vec_est_ci[3], &vec_est_ci[4], &y_pos_est_ci);
+      }
+      // GAME OVER
+      if(gaOv_switch == 1){
+        start_game = 0;
+        if(++cont_GaOv_u == 50){
+          LCD_DrawRectangle(0,0,SCREEN_WIDTH,SCREEN_HEIGHT,0);
+          dib_GaOv();
+          y_pos = 208;
+          x_pos = 120;
+          dib_nave(&x_pos, &y_pos);
+          PlayMelody(melGaOv);
+        }
+        if(++cont_GaOv_d >= 150){
+          LCD_DrawRectangle(0,0,SCREEN_WIDTH,SCREEN_HEIGHT,0);
+          cont_GaOv_u = 0;  
+          cont_GaOv_d = 0;
+          start_pressed = 0;
+          start_block = 1; 
+          cont_mel_p = 50; 
+          gaOv_switch = 0;
+          //Reinicio de otras variables importantes
+          disp_switch = 0;
+          disp_bal_men = 0;
+          dash_act = 1;
+          cont_dash_anim = 1;
+        }
+      }
+      // PANTALLA INICIAL
+      if (start_game == 0 && start_pressed == 0 && start_block == 1){
+        if(++cont_mel_p >= 150){
+          cont_mel_p = 0;
+          PlayMelody(melPrinc);
+        }
+      dib_pant_princ();
+      anim_flechas(&cont_fle, &pos_fl);
+      }
       dib_nave(&x_pos,&y_pos);//REDIBUJAMOS POR SI ACASO
       
       break;
-
+    
     case EV_KEY_UP_PRESS:
       EmphasizeButton(event);
       break;
@@ -320,8 +379,11 @@ void MainMenuScreenHandler(void)
       EmphasizeButton(event);
       break;
     case EV_KEY_START_PRESS:
-      // Empezar juego
-      ESP_LOGI("scr_main", "INICIO JUEGO");
+    if(start_block == 1){
+      start_pressed = 1;
+      start_block = 0;
+    }
+      
       break;
     case EV_KEY_SELECT_PRESS:
       // Apagar
