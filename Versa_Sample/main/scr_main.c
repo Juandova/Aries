@@ -145,7 +145,7 @@ int iniciomet = 0, iniciomet_d = 0, iniciomet_t = 0, iniciomet_cu = 0, iniciomet
 int cont_switch = 0, cont_switch_d = 20, cont_switch_t = 40, cont_switch_cu = 60, cont_switch_ci = 80;
 int cont_met = 0, cont_met_d = 0, cont_met_t = 0, cont_met_cu = 0, cont_met_ci = 0; 
 
-//Animacion felchas
+//Animacion flechas
 int cont_fle = 0, pos_fl = 1;
 
 
@@ -210,9 +210,9 @@ static void EmphasizeButton(tUIEvent button)
       if(disp_switch == 0 && disp_bal_men < 3){
         PlayMelody(melDisp);
         disp_bal_men++;
-        disp_switch = 1;
-        disp_pos_y = y_pos - 20;
-        disp_pos_x = x_pos - 1;
+        disp_switch = 1; //Disparo en marcha
+        disp_pos_y = y_pos - 20;// Guarda la posición "y" en ese instante de la punta de la nave
+        disp_pos_x = x_pos - 1;// Guarda la posición "x" en ese instante de la punta de la nave
       }
     }   
     break;
@@ -283,7 +283,17 @@ void MainMenuScreenHandler(void)
       start_pressed = 0;
       start_game = 1;
       ref_dib = 0;
+      //Reiniciamos el contador
       rein_conts(&cont, &cont_u, &cont_d, &cont_t, &cont_cu, &cont_ci, &cont_se);
+      //Reiniciamos los valores de los meteoritos
+      vel_met = 8;
+      cont_vel = 0;
+      met_dest = 0;
+      metpos_x = 119; metpos_y = 0; metpos_x_d = 119; metpos_y_d = 0; metpos_x_t = 119; metpos_y_t = 0; metpos_x_cu = 119; metpos_y_cu = 0; metpos_x_ci = 119; metpos_y_ci = 0;
+      met_switch = 0; met_switch_d = 0; met_switch_t = 0; met_switch_cu = 0; met_switch_ci = 0;
+      iniciomet = 0; iniciomet_d = 0; iniciomet_t = 0; iniciomet_cu = 0; iniciomet_ci = 0;
+      cont_switch = 0; cont_switch_d = 20; cont_switch_t = 40; cont_switch_cu = 60; cont_switch_ci = 80;
+      cont_met = 0; cont_met_d = 0; cont_met_t = 0; cont_met_cu = 0; cont_met_ci = 0; 
       }
 
       // EMPIZA EL JUEGO

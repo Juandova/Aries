@@ -324,8 +324,6 @@ void met_comp(int *a, int *b, int *c, int *d, int *e, int *f, int *g, int *h, in
       for(i = 0;i <= 19;i++){
         for(j = 0;j <= 15;j++){
           if(vec_met_y_f[i] == vec_nav_y_f[j]){
-            LCD_DrawRectangle(metpos_x_f,metpos_y_f,1,10,WHITE_COLOR);
-            LCD_DrawRectangle(x_pos_f - 1,y_pos_f,1,10,WHITE_COLOR);
             met_switch_f = 0;
             gaOv_switch_f = 1;
             PlayMelody(melNavDest);
@@ -353,10 +351,6 @@ void met_comp(int *a, int *b, int *c, int *d, int *e, int *f, int *g, int *h, in
 void control_vel(int *a, int *b){
   int cont_vel_f = *a;
   int vel_met_f = *b;
-  if(++cont_vel_f >= 1500 && vel_met_f < 26){
-    cont_vel_f = 0;
-    vel_met_f = vel_met_f + 1;
-  }
   if(++cont_vel_f >= 1500 && vel_met_f < 26){
     cont_vel_f = 0;
     vel_met_f = vel_met_f + 1;
