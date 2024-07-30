@@ -10,7 +10,7 @@
 
 Esta es la consola que se propuso en el [*reto-design*](https://versades.com/reto-design/) de la empresa valenciana Versa Design. Todo el diseño y código base entregado a los participantes se puede encontrar en [*Su reposiroio*](https://github.com/Versa-Design/Aries). Yo he creado una librería con funciones que aprovechan todas las funcionalidades del repositorio original y he programado un videojuego completo desde 0 utilizando dichas herramientas básicas.
 
-*En el repositorio original se puede observar lo siguiente:*
+# En el repositorio original se puede observar lo siguiente:
 
 
 El propósito de este repositorio es proporcinar soporte a los alumnos agraciados con una consola modelo *Aries*, entregada en la Universidad Politécnica de Valencia durante el foro de empleo celebrado el 17  y 18 de mayo de 2023.
